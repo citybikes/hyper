@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "citybikes-hyper"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = { "text" = "AGPL-3.0" }
+keywords = []
+authors = [
+  { name = "eskerda", email = "eskerda@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "pybikes @ git+https://github.com/eskerda/pybikes",
+  "pyzmq",
+  "apscheduler",
+  "starlette",
+  "uvicorn",
+]
+
+[project.urls]
+Documentation = "https://github.com/eskerda/hyper#readme"
+Issues = "https://github.com/eskerda/hyper/issues"
+Source = "https://github.com/eskerda/hyper"
+
+[project.scripts]
+hyper = "hyper:cli.main"
+
+[tool.hatch.version]
+path = "src/hyper/__init__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/hyper tests}"
+
+[tool.coverage.run]
+source_pkgs = ["hyper", "tests"]
+branch = true
+parallel = true
+omit = []
+
+[tool.coverage.paths]
+hyper = ["src/hyper", "*/hyper/src/hyper"]
+tests = ["tests", "*/hyper/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hyper"]
+
+[tool.hatch.envs.test]
+extra-dependencies = [
+  "pytest",
+  "pytest-asyncio"
+]
