@@ -38,6 +38,26 @@ $ python -m hyper.consumer
 ...
 ```
 
+See [examples/sqlite_consumer.py] for an example implementation of a consumer
+that stores produced information on a local SQLite database.
+
+```
+$ python examples/sqlite_consumer.py
+```
+
+```
+$ sqlite3 citybikes.db
+SQLite version 3.43.2 2023-10-10 13:08:14
+Enter ".help" for usage hints.
+sqlite> select count(*) from networks;
+674
+sqlite> select count(*) from stations;
+70735
+sqlite>
+```
+
+[examples/sqlite_consumer.py]: examples/sqlite_consumer.py
+
 ## Configuration
 
 The producer is highly customizable to configure how each pybikes network is

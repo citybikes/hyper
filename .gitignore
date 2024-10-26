@@ -26,3 +26,5 @@ __pycache__/
 # Root files
 /.coverage*
 /.env
+/citybikes.db*
+/config.py
