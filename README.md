@@ -43,6 +43,13 @@ that stores produced information on a local SQLite database.
 
 ```
 $ python examples/sqlite_consumer.py
+16:44:03.629 | INFO | Waiting for messages on tcp://127.0.0.1:5555/#
+16:44:10.712 | INFO | Processing {'name': 'Vélitul', 'city': 'Laval', ...
+16:44:10.714 | INFO | [velitul] Got 6 stations
+16:44:10.715 | INFO | [velitul] Finished processing 6 stations
+16:44:10.728 | INFO | Processing {'name': 'IDEcycle', 'city': 'Pau', ...
+16:44:10.728 | INFO | [idecycle] Got 14 stations
+16:44:10.729 | INFO | [idecycle] Finished processing 14 stations
 ```
 
 ```
