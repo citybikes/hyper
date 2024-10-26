@@ -33,9 +33,9 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/eskerda/hyper#readme"
-Issues = "https://github.com/eskerda/hyper/issues"
-Source = "https://github.com/eskerda/hyper"
+Documentation = "https://github.com/citybikes/hyper#readme"
+Issues = "https://github.com/citybikes/hyper/issues"
+Source = "https://github.com/citybikes/hyper"
 
 [project.scripts]
 hyper = "hyper:cli.main"
