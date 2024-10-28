@@ -14,7 +14,8 @@ import zmq.asyncio
 
 from requests.adapters import HTTPAdapter
 
-import pybikes
+from pybikes import PyBikesScraper, get as pybikes_get
+from pybikes.data import _traverse_lib
 from pybikes.utils import keys
 from pybikes.contrib import TSTCache
 
@@ -151,9 +152,9 @@ async def run(config):
     # becomes
     # tasks = [nextbike, bicing, velib, ..., nextbike]
 
-    for mod, i_data in pybikes.get_instances():
+    for mod, cls, i_data in _traverse_lib():
         try:
-            instance = pybikes.get(i_data['tag'], key=getattr(keys, mod))
+            instance = pybikes_get(i_data['tag'], key=getattr(keys, mod))
         except Exception as e:
             log.error("[%s] %s", i_data['tag'], e)
             continue
@@ -166,7 +167,7 @@ async def run(config):
 
         interval = settings['interval']
         jitter = settings['jitter']
-        scraper = pybikes.PyBikesScraper(** settings['scraper'])
+        scraper = PyBikesScraper(** settings['scraper'])
         # XXX still needed here?
         scraper.session.mount('http://', adapter)
         scraper.session.mount('https://', adapter)
