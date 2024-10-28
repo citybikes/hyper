@@ -1,7 +1,6 @@
 # citybikes-hyper
 
-Citybikes Hyper is the next-generation framework for executing pybikes by
-leveraging asyncio queues and threadpool executors.
+Citybikes Hyper is the next-generation framework for executing pybikes.
 
 ## Installation
 
