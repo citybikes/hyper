@@ -20,7 +20,7 @@ For more information see the guide on the [documentation](https://docs.citybik.e
 ### Installation
 
 ```shell
-pip install citybikes-hyper
+pip install git+https://github.com/citybikes/hyper.git
 ```
 
 ### Usage
