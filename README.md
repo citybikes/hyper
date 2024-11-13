@@ -1,123 +1,79 @@
-# citybikes-hyper
+<p align="center">
+  <img alt="hyper pub/sub model" width="600px" src="https://github.com/user-attachments/assets/21557297-919e-464a-85e0-af4794a3066c"/>
+</p>
 
-Citybikes Hyper is the next-generation framework for executing pybikes.
+# Hyper
 
-## Installation
+Citybikes Hyper is a high-concurrency task scheduling system built for scraping
+bike-sharing networks using [pybikes]. Network updates are published over a
+ZeroMQ PUB socket, allowing external components to subscribe to live data
+updates.
 
-```console
-pip install .
+[pybikes]: /pybikes
+
+This project is production ready, but in a beta state. Please report any bugs as an issue on the GitHub repository.
+
+For more information see the guide on the [documentation](https://docs.citybik.es/hyper) website.
+
+## Getting started
+
+### Installation
+
+```shell
+pip install citybikes-hyper
 ```
 
-## Usage
+### Usage
 
-A producer script schedules pybikes tasks and publishes updated networks as
-a JSON message over a ZMQ PUB socket.
+Start a publisher
 
-```
-$ python -m hyper.producer
+```shell
+$ hyper publisher
 ...
 15:40:09 | INFO | [velitul] stations 6
 15:40:09 | INFO | [velitul] Publishing network:Cykleo:velitul:update
 15:40:09 | INFO | [idecycle] stations 14
 15:40:09 | INFO | [idecycle] Publishing network:Cykleo:idecycle:update
 15:40:09 | INFO | [twisto-velo] stations 21
-15:40:09 | INFO | [twisto-velo] Publishing network:Cykleo:twisto-velo:update
+15:40:09 | INFO | [twisto-velo] Publishing network:Cykleo:twisto-velo:u...
 15:40:09 | INFO | [nextbike-leipzig] stations 122
-15:40:09 | INFO | [nextbike-leipzig] Publishing network:Nextbike:nextbike-leipzig:update
+15:40:09 | INFO | [nextbike-leipzig] Publishing network:Nextbike:nextbi...
 ```
 
-Results can be retrieved over a ZMQ SUB socket. For example, by using the
-log consumer
+Start a logging subscriber
 
-```
-$ python -m hyper.consumer
+```shell
+$ hyper subscriber
 15:40:59.916 | INFO | Waiting for messages on tcp://127.0.0.1:5555/#
-15:41:03.498 | INFO | #network:Cykleo:velitul:update: {"tag": "velitul", ...
+15:41:03.498 | INFO | #network:Cykleo:velitul:update: {"tag": "velit ...
 15:41:03.526 | INFO | #network:Cykleo:twisto-velo:update: {"tag": ...
-...
 ```
 
-See [examples/sqlite_consumer.py] for an example implementation of a consumer
-that stores produced information on a local SQLite database.
+See [examples/sqlite_subscriber.py] for an example implementation of a
+subscriber that stores information on a local SQLite database.
 
-```
-$ python examples/sqlite_consumer.py
-16:44:03.629 | INFO | Waiting for messages on tcp://127.0.0.1:5555/#
-16:44:10.712 | INFO | Processing {'name': 'Vélitul', 'city': 'Laval', ...
-16:44:10.714 | INFO | [velitul] Got 6 stations
-16:44:10.715 | INFO | [velitul] Finished processing 6 stations
-16:44:10.728 | INFO | Processing {'name': 'IDEcycle', 'city': 'Pau', ...
-16:44:10.728 | INFO | [idecycle] Got 14 stations
-16:44:10.729 | INFO | [idecycle] Finished processing 14 stations
-```
+[examples/sqlite_subscriber.py]: examples/sqlite_subscriber.py
 
-```
-$ sqlite3 citybikes.db
-SQLite version 3.43.2 2023-10-10 13:08:14
-Enter ".help" for usage hints.
-sqlite> select count(*) from networks;
-674
-sqlite> select count(*) from stations;
-70735
-sqlite>
-```
-
-[examples/sqlite_consumer.py]: examples/sqlite_consumer.py
-
-## Configuration
-
-The producer is highly customizable to configure how each pybikes network is
-scheduled, by pattern matching network identifiers. For example:
-
-```python
-from hyper.config import Config
-from hyper.producer import DEFAULTS
-
-schedule = Config(DEFAULTS, {
-    # Run updates every 3 minutes
-    ".*": {
-        "interval": 180,
-    },
-    # Set a different interval for all GBFS networks
-    "pybikes.gbfs::.*": {
-        "interval": 300,
-    },
-    # The following changes only affects network with tag 'citi-bike-nyc'
-    "pybikes.gbfs::citi-bike-nyc": {
-        # add a 10s jitter between scheduled requests
-        "jitter": 10,
-        # scraper opts for this network
-        "scraper": {
-            "user-agent": "Agent 700",
-            "requests_timeout": 42,
-        }
-    },
-    "pybikes.nextbike::.*": {
-        # use a different queue for nextbike
-        "queue": "nextbike",
-    }
-})
-
-queues = [
-    # Default queue with 100 workers
-    ("default", 100),
-    # Use 50 workers on this queue
-    ("nextbike", 50),
-]
-```
-
-Pass the configuration file to the producer
-
-```console
-python -m hyper.producer -c config.py
-```
-
-For a full list of configuration options, see [defaults]
-
-[defaults]: src/hyper/producer.py#L28
 
 ## Development
 
 ```console
-pip install -e .
+$ pip install -e .
 ```
+
+## Contributing
+Citybikes Hyper is **free, open-source software** licensed under **AGPLv3**.
+
+You can open issues for bugs you've found or features you think are missing. You can also submit pull requests to this repository
+
+**Chat on Matrix**: https://matrix.to/#/#citybikes:matrix.org
+
+## License
+Copyright (C) 2024 Awesome Enterprises SL
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see https://www.gnu.org/licenses/.
+
