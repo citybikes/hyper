@@ -6,4 +6,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY src/hyper hyper
-CMD python -m hyper.producer
+CMD python -m hyper.publisher
