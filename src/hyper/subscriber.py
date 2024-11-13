@@ -13,11 +13,11 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(stream=sys.stderr)],
     datefmt='%H:%M:%S',
 )
-log = logging.getLogger("consumer")
+log = logging.getLogger("subscriber")
 
 
-class ZMQConsumer:
-    """ This class can be extended to create consumers """
+class ZMQSubscriber:
+    """ This class can be extended to create subscribers """
     def __init__(self, addr, topic):
         self.addr = addr
         self.topic = topic
@@ -44,12 +44,15 @@ class ZMQConsumer:
             self.handle_message(topic, data)
 
 
-if __name__ == "__main__":
+def main():
     ZMQ_ADDR = os.getenv('ZMQ_ADDR', 'tcp://127.0.0.1:5555')
     ZMQ_TOPIC = os.getenv('ZMQ_TOPIC', '')
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', '--addr', default=ZMQ_ADDR)
     parser.add_argument('-t', '--topic', default=ZMQ_TOPIC)
     args, _ = parser.parse_known_args()
-    consumer = ZMQConsumer(args.addr, args.topic)
-    consumer.reader()
+    subscriber = ZMQSubscriber(args.addr, args.topic)
+    subscriber.reader()
+
+if __name__ == "__main__":
+    main()

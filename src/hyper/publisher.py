@@ -66,7 +66,7 @@ logging.basicConfig(
 logging.getLogger('apscheduler.executors.default').setLevel(logging.WARN)
 logging.getLogger('apscheduler.scheduler').setLevel(logging.WARN)
 
-log = logging.getLogger("producer")
+log = logging.getLogger("publisher")
 
 # XXX needed for pool exhaustion
 adapter = HTTPAdapter(

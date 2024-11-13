@@ -1,5 +1,5 @@
 """
-An example consumer that stores all produced information on an SQLite db.
+An example subscriber that stores all produced information on an SQLite db.
 """
 
 import os
@@ -8,11 +8,12 @@ import logging
 import argparse
 import sqlite3
 
-from hyper.consumer import ZMQConsumer
+from hyper.subscriber import ZMQSubscriber
 
 
 DB_URI = os.getenv("DB_URI", "citybikes.db")
 ZMQ_ADDR = os.getenv("ZMQ_ADDR", "tcp://127.0.0.1:5555")
+ZMQ_TOPIC = os.getenv("ZMQ_TOPIC", "")
 
 conn = sqlite3.connect(DB_URI)
 
@@ -37,10 +38,10 @@ cur.executescript("""
 """)
 conn.commit()
 
-log = logging.getLogger("consumer")
+log = logging.getLogger("subscriber")
 
 
-class SqliteConsumer(ZMQConsumer):
+class Sqlitesubscriber(ZMQSubscriber):
     def handle_message(self, topic, message):
         network = json.loads(message)
         meta = network["meta"]
@@ -111,11 +112,9 @@ class SqliteConsumer(ZMQConsumer):
 
 
 if __name__ == "__main__":
-    ZMQ_ADDR = os.getenv("ZMQ_ADDR", "tcp://127.0.0.1:5555")
-    ZMQ_TOPIC = os.getenv("ZMQ_TOPIC", "")
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--addr", default=ZMQ_ADDR)
     parser.add_argument("-t", "--topic", default=ZMQ_TOPIC)
     args, _ = parser.parse_known_args()
-    consumer = SqliteConsumer(args.addr, args.topic)
-    consumer.reader()
+    subscriber = SqliteSubscriber(args.addr, args.topic)
+    subscriber.reader()

@@ -1,5 +1,6 @@
 import sys
-import hyper.producer
+import hyper.publisher
+import hyper.subscriber
 
 def main():
     action = sys.argv[1]
