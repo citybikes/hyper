@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="hyper pub/sub model" width="600px" src="https://github.com/user-attachments/assets/21557297-919e-464a-85e0-af4794a3066c"/>
+  <img alt="hyper pub/sub model" width="600px" src="https://github.com/user-attachments/assets/46bdfe13-546b-42f0-a19a-2d6ee046dd2a"/>
 </p>
 
 # Hyper
