@@ -21,14 +21,13 @@ class ZMQSubscriber:
     def __init__(self, addr, topic):
         self.addr = addr
         self.topic = topic
-        self.context = zmq.Context()
+        self.ctx = zmq.Context()
 
     def handle_message(self, topic, message):
         log.info("#%s: %s", topic, message)
 
     def reader(self):
-        ctx = zmq.Context()
-        socket = ctx.socket(zmq.SUB)
+        socket = self.ctx.socket(zmq.SUB)
         socket.connect(self.addr)
         socket.setsockopt_string(zmq.SUBSCRIBE, "")
         log.info("Waiting for messages on %s/#%s", self.addr, self.topic)
