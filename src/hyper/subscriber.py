@@ -2,9 +2,11 @@ import re
 import os
 import sys
 import logging
+import asyncio
 import argparse
 
 import zmq
+import zmq.asyncio
 
 
 logging.basicConfig(
@@ -41,6 +43,34 @@ class ZMQSubscriber:
                 continue
 
             self.handle_message(topic, data)
+
+
+class AZMQSubscriber:
+    """ asyncio implementation of ZMQSubscriber """
+    def __init__(self, addr, topic):
+        self.addr = addr
+        self.topic = topic
+        self.ctx = zmq.asyncio.Context()
+
+    async def handle_message(self, topic, message):
+        log.info("#%s: %s", topic, message)
+
+    async def reader(self):
+        socket = self.ctx.socket(zmq.SUB)
+        socket.connect(self.addr)
+        socket.setsockopt_string(zmq.SUBSCRIBE, "")
+        log.info("Waiting for messages on %s/#%s", self.addr, self.topic)
+
+        while True:
+            message = await socket.recv_string()
+            topic, data = message.split(' ', 1)
+
+            if not re.match(self.topic, topic):
+                log.debug('%s does not match set topic %s', topic, self.topic)
+                continue
+
+            await self.handle_message(topic, data)
+
 
 
 def main():
