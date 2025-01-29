@@ -19,10 +19,10 @@ from pybikes.data import _traverse_lib
 from pybikes.utils import keys
 from pybikes.contrib import TSTCache
 
-from hyper import __version__ as version
-from hyper.srv import AdminServer
-from hyper.scheduler import Scheduler, AsyncExecutor
-from hyper.config import Config, read_config
+from citybikes.hyper import __version__ as version
+from citybikes.hyper.srv import AdminServer
+from citybikes.hyper.scheduler import Scheduler, AsyncExecutor
+from citybikes.hyper.config import Config, read_config
 
 
 DEFAULTS = {

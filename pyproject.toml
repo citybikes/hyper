@@ -38,40 +38,16 @@ Issues = "https://github.com/citybikes/hyper/issues"
 Source = "https://github.com/citybikes/hyper"
 
 [project.scripts]
-hyper = "hyper:cli.main"
+hyper = "citybikes.hyper:cli.main"
 
 [tool.hatch.version]
-path = "src/hyper/__init__.py"
-
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/hyper tests}"
-
-[tool.coverage.run]
-source_pkgs = ["hyper", "tests"]
-branch = true
-parallel = true
-omit = []
-
-[tool.coverage.paths]
-hyper = ["src/hyper", "*/hyper/src/hyper"]
-tests = ["tests", "*/hyper/tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
+path = "src/citybikes/hyper/__init__.py"
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hyper"]
+packages = ["src/citybikes"]
 
 [tool.hatch.envs.test]
 extra-dependencies = [

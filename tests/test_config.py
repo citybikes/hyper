@@ -1,6 +1,6 @@
 from pybikes import BikeShareSystem
 
-from hyper.config import Config
+from citybikes.hyper.config import Config
 
 
 class TestConfig:

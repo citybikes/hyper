@@ -3,7 +3,7 @@ from unittest.mock import Mock, AsyncMock
 
 import pytest
 
-from hyper.scheduler import Scheduler
+from citybikes.hyper.scheduler import Scheduler
 
 
 @pytest.mark.asyncio
