@@ -1,6 +1,6 @@
 import os
 
-from hyper.config import Config
+from citybikes.hyper.config import Config
 
 PROXY_HOST = os.getenv("PROXY_HOST", "localhost")
 PROXY_PORT = os.getenv("PROXY_PORT", "8080")
