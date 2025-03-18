@@ -50,7 +50,6 @@ DEFAULTS = {
 
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
 N_WORKERS_PYBIKES = int(os.getenv('N_WORKERS_PYBIKES', 100))
-N_WORKERS_QUEUE = int(os.getenv('N_WORKERS_QUEUE', 100))
 CONFIG_FILE = os.getenv('HYPER_CONFIG', None)
 ZMQ_LISTEN = os.getenv('ZMQ_LISTEN', 'tcp://127.0.0.1:5555')
 
