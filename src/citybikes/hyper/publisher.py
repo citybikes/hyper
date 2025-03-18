@@ -71,7 +71,7 @@ log = logging.getLogger("publisher")
 # XXX needed for pool exhaustion
 adapter = HTTPAdapter(
     pool_connections=N_WORKERS_PYBIKES,
-    pool_maxsize=N_WORKERS_QUEUE
+    pool_maxsize=N_WORKERS_PYBIKES,
 )
 
 
