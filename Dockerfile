@@ -1,8 +1,10 @@
-FROM python:3-slim as python-build
+FROM python:3-slim as base
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
   && rm -rf /var/lib/apt/lists/*
+
+FROM base as python-build
 
 WORKDIR /usr/src/app
 
